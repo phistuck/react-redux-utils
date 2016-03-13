@@ -1,5 +1,6 @@
 export default function(types) {
     return types.reduce((previousValue, currentValue) => {
-        return previousValue[currentValue] = Symbol(previousValue);
+        previousValue[currentValue] = Symbol(previousValue);
+        return previousValue;
     }, {});
 };
