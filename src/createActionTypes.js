@@ -3,4 +3,4 @@ export default function createActionTypes(types) {
         previousValue[currentValue] = currentValue;
         return previousValue;
     }, {});
-};
+}
