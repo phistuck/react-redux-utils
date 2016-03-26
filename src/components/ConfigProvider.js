@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes, Children} from 'react';
 
 export default class ConfigProvider extends Component {
     static get childContextTypes() {
@@ -8,16 +8,11 @@ export default class ConfigProvider extends Component {
     }
 
     getChildContext() {
-        return { store: this.store };
-    }
-
-    constructor(props, context) {
-        super(props, context);
-        this.store = props.store;
+        return {config: this.props.config};
     }
 
     render() {
-        const { children } = this.props;
+        const {children} = this.props;
         return Children.only(children);
     }
 }

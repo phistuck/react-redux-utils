@@ -1,10 +1,10 @@
-import _createActionTypes from './createActionTypes';
+import _createActionTypes from './action-utils/createActionTypes';
 export { _createActionTypes as createActionTypes };
 
-import _createActionCreator from './createActionCreator';
+import _createActionCreator from './action-utils/createActionCreator';
 export { _createActionCreator as createActionCreator };
 
-import _reduceReducers from './reduceReducers';
+import _reduceReducers from './reducer-utils/reduceReducers';
 export { _reduceReducers as reduceReducers };
 
 import _ConfigProvider from './components/ConfigProvider';
