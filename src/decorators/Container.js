@@ -23,10 +23,13 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
         }
 
         dispatch(action) {
-            // thunk-lik action, in fact, an actionCreator
+            // thunk-like action or actionCreator
             if (typeof action === 'function') {
                 action((action) => {
-                    this.setState(action.payload || {});
+                    // Unwrap all the thunk layers
+                    this.dispatch(action);
+                }, () => {
+                    return this.state;
                 });
             } else {
                 this.setState(action.payload || {});

@@ -1,6 +1,6 @@
 {
   "name": "react-redux-utils",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Set of React/Redux utility functions",
   "main": "lib/index",
   "jsnext:main": "lib/index",
