@@ -29,7 +29,7 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
                     // Unwrap all the thunk layers
                     this.dispatch(action);
                 }, () => {
-                    return this.state;
+                    return {...this.props};
                 });
             } else {
                 this.setState(action.payload || {});
