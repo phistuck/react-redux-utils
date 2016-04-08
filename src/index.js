@@ -12,6 +12,3 @@ export { _ConfigProvider as ConfigProvider };
 
 import _Container from './decorators/Container';
 export { _Container as Container };
-
-import _Match from './components/Match';
-export { _Match as Match };
