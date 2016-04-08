@@ -15,25 +15,25 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
             };
         }
 
-        constructor(props = {}) {
-            super(props);
-
-            const {dispatch = this.dispatch} = props;
-            this.inejctedDispath = dispatch.bind(this);
-        }
-
-        dispatch(action) {
-            // thunk-like action or actionCreator
-            if (typeof action === 'function') {
-                action((action) => {
-                    // Unwrap all the thunk layers
-                    this.dispatch(action);
-                }, () => {
-                    return {...this.props};
-                });
-            } else {
-                this.setState(action.payload || {});
+        createDispatch(props) {
+            let {dispatch} = this.props;
+            
+            if (!dispatch) {
+                dispatch = (action) => {
+                    if (typeof action === 'function') {
+                        action((action) => {
+                            // Unwrap all the thunk layers
+                            this.dispatch(action);
+                        }, () => {
+                            return props;
+                        });
+                    } else {
+                        this.setState(action.payload || {});
+                    }
+                };
             }
+
+            return dispatch;
         }
 
         calculateIntlProps() {
@@ -59,8 +59,7 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
             const props = {
                 ...this.props,
                 ...this.state,
-                ...{config: config}, 
-                ...{dispatch: this.inejctedDispath}
+                ...{config: config}
             };
 
             return props;
@@ -68,11 +67,12 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
 
         render() {
             const intlProps = this.calculateIntlProps();
-            const props = this.mergeProps();            
+            const props = this.mergeProps();
+            const dispatch = this.createDispatch(props);
 
             return (  
                 <IntlProvider {...intlProps}>
-                    <ConnectedDecoratedComponent {...props} />
+                    <ConnectedDecoratedComponent {...props} dispatch={dispatch} />
                 </IntlProvider>
             );
         }
