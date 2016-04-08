@@ -23,7 +23,7 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
                     if (typeof action === 'function') {
                         action((action) => {
                             // Unwrap all the thunk layers
-                            this.dispatch(action);
+                            dispatch(action);
                         }, () => {
                             return props;
                         });
