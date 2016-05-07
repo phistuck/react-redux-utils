@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {IntlProvider, injectIntl} from 'react-intl';
+import NoOp from '../components/utils/NoOp';
 
 export const decorateContainer = function(DecoratedComponent, options = {}) {
     const ConnectedDecoratedComponent = injectIntl(DecoratedComponent);    
@@ -11,6 +12,8 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
 
         static get contextTypes() {
             return {
+                policy: PropTypes.func,
+                permissions: PropTypes.object,
                 config: PropTypes.object
             };
         }
@@ -49,17 +52,32 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
             return props;
         }
 
+        createConfigProp() {
+            return this.context ? (this.context.config || {}) : {};
+        }
+
+        createRBAProp() {
+            return this.context ? ({
+                policy: this.context.policy,
+                permissions: this.context.permissions
+            } || {}) : {};
+        }
+
         mergeProps() {
             // TODO: Deep merge? Performance on render?
-            const contextConfig = this.context ? (this.context.config || {}) : {};
+            const contextConfig = this.createConfigProp();
+            const rba = this.createRBAProp();
+
             const propsConfig = this.props ? (this.props.config || {}) : {};
             const stateConfig = this.state ? (this.state.config || {}) : {};
+
             const config = {...options.config, ...contextConfig, ...propsConfig, ...stateConfig};
 
             const props = {
                 ...this.props,
                 ...this.state,
-                ...{config: config}
+                config,
+                rba
             };
 
             return props;
