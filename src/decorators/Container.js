@@ -58,8 +58,8 @@ export const decorateContainer = function(DecoratedComponent, options = {}) {
 
         createRBAProp() {
             return this.context ? ({
-                policy: this.context.policy,
-                permissions: this.context.permissions
+                policy: this.context.policy || NoOp,
+                permissions: this.context.permissions || {}
             } || {}) : {};
         }
 
